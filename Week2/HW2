@@ -1,0 +1,188 @@
+--Homework #2 Query from A Single Table
+
+/*--------------------------------------------------------------------------------------
+Instructions:
+
+You will need to import the data for Chicago Salary in order to complete this assignment. 
+
+The Chicago Salary tabe should be called dbo.ChicagoSalary and have 4 fields 
+Name varchar(255) 
+PositionTitle varchar(255) 
+Department varchar(255) 
+Salary decimal(19,2)
+
+
+
+Don't forget to name your columns, an output of (No column name) will reduce your overall grade.
+
+Answer each question as best as possible.  
+Show your work if you need to take multiple step to answer a problem. 
+Partial answers will count.
+--------------------------------------------------------------------------------------*/
+USE HW2;
+
+select * from dbo.ChicagoSalary
+
+/* 
+Q1. (0.5 point)
+Write the query to COUNT the number of Records in the Salary table. 
+
+*/
+
+/* Q1. Query*/
+
+select count(Name) as NumberofRecords
+from dbo.ChicagoSalary;
+
+--OUTPUT: 32432
+
+/* 
+Q2. (0.5 point)
+Write a query to display the number of unique names.
+
+*/
+
+/* Q2. Query */
+
+select count(distinct Name) as NumberofUniqueRecords
+from dbo.ChicagoSalary;
+--OUTPUT: 32164
+
+/* 
+Q3. (0.5 point)
+Write a query to display the only the name and position title of those with a full name 
+that contains the text 'Spangler' in it.
+
+*/
+
+/* Q3. Query*/
+Select Name, PositionTitle
+from dbo.ChicagoSalary
+where Name like '%Spangler%'
+
+
+/* 
+Q4. (0.5 point)
+Write a query to display the name and position of the person who has the lowest Salary in the the AVIATION department.
+
+*/
+
+/* Q4. Query */
+
+Select min(Salary) as MinimumSalaryforAviation
+from dbo.ChicagoSalary
+where Department = 'AVIATION'
+--OUTPUT = 8580
+
+Select Name as WithLowestWage, PositionTitle
+from dbo.ChicagoSalary
+where Department = 'AVIATION' and Salary = 8580
+-- Please let me know if this is legal. I felt like I cheated. I couldn't find a better way anywhere on the Internet\
+
+
+/* 
+Q5. (0.5 point)
+Write a query to display all the names and salaries of everyone in the WATER MGMNT department
+that makes more than 150K in salary, order the output by Salary descending.
+
+*/
+
+/* Q5. Query */ 
+
+Select Name, Salary
+from dbo.ChicagoSalary
+where Department = 'WATER MGMNT' and Salary > 150000
+Order by Salary DESC
+
+/* 
+Q6. (0.5 point)
+Display the total salary of the entire Chicago salary table.
+
+*/
+
+/* Q6. Query */
+
+Select sum(Salary) as TotalSalary
+from dbo.ChicagoSalary
+
+/* 
+Q7. (0.5 point)
+Display the department name and average salary where average salary for the department is more than 90000.
+
+*/
+
+/* Q7. Query */
+
+Select Department, avg(Salary) as AverageSalary
+from dbo.ChicagoSalary
+group by Department
+having avg(Salary) > 90000
+
+/* Q8. (0.5 point)
+Which Employee has the highest salary? 
+How Much higher is that person's salary compared to the AVG salary of the department they belong to? 
+You can use multiple queries to answer this question.
+
+*/
+
+/*Q8. Query */
+
+select max(Salary) as HighestSalary
+from dbo.ChicagoSalary
+--Output = 260004
+
+select Name, Department
+from dbo.ChicagoSalary
+where Salary = 260004
+-- Output = Police
+
+select Department, AVG(salary)
+from dbo.ChicagoSalary
+group by Department
+-- Output = Police Avg Salary == 76223.614
+
+select Name, Salary-76223.614 as DifferencefromAverageWage
+from dbo.ChicagoSalary
+where Salary = 260004
+
+/* Q9. (0.5 point)
+Display the Name, Department, Salary (to the nearest whole number) of any employee who has a salary of 60000 or more 
+and their name begins with 'Aaron'.
+
+*/ 
+
+/* Q9. Query */
+
+Select Name, Department, Round(Salary,0) as Salary
+from dbo.ChicagoSalary
+where Salary>=60000 and Name like '% Aaron%'
+-- I interpret that we're talking about first name being Aaron?
+
+/* Q10. (0.5 point)
+Display LastName and FirstName (with Middle Initial) as seperate columns/fields derived from the Name field. Write down your query in the answersheet.
+
+*/
+
+/* Q10. Query*/
+
+SELECT Name, 
+Substring(Name, 1,CHARINDEX(',',Name,1)-1) as LastName,
+--RIGHT(Name, CHARINDEX('.', Name)) as LastName,
+Substring(Name, CHARINDEX(',',Name,1)+2, LEN(Name)) as FirstName
+FROM dbo.ChicagoSalary; --Character to find, String to search, Starting Position 
+
+/*Bonus Q11. (0.1 point) 
+You may share any challenge(s) you face while finishing the assignment and how you overcome the challenge.
+
+*/
+
+/*
+1. I could not figure out how to nest avg(Salary of a specific department) in one command line.
+I tried to google on stackoverflow but nothing came out of it.
+It would be very useful if we could store it in a global variable and use it in more than 1 execution.
+Overall, it's pretty tricky
+
+2. I tried to use charindex and substring to find the character '.' to partition Name.
+It kept returning the position of '.' as 0.
+Turns out it was ','. It's just too hard to see. 
+*/
