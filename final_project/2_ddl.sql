@@ -1,4 +1,5 @@
 USE master;
+GO
 
 -- Drop database
 IF DB_ID(N'nguye2aq_dbo') IS NOT NULL DROP DATABASE nguye2aq_dbo;
@@ -129,13 +130,13 @@ SET IDENTITY_INSERT  DC_COMICS.comic_issue OFF;
 
 SET IDENTITY_INSERT DC_COMICS.graphic_novel ON;
 INSERT INTO  DC_COMICS.graphic_novel(graphic_novel_id, novel_title, novel_release_date, paperback_release, hardback_release)
-  VALUES(1, 'Peepland Omnibus', '2022-04-13', 1, 1);
+  VALUES(1, 'Peepland Omnibus', '2022-04-13', 1, 0);
 INSERT INTO  DC_COMICS.graphic_novel(graphic_novel_id, novel_title, novel_release_date, paperback_release, hardback_release)
   VALUES(2, 'Animal Man Volume 2', '2022-04-13', 1, 1);
 INSERT INTO  DC_COMICS.graphic_novel(graphic_novel_id, novel_title, novel_release_date, paperback_release, hardback_release)
-  VALUES(3, 'Batman: Night of Monster Men', '2022-04-13', 1, 1);
+  VALUES(3, 'Batman: Night of Monster Men', '2022-04-13', 0, 0);
 INSERT INTO  DC_COMICS.graphic_novel(graphic_novel_id, novel_title, novel_release_date, paperback_release, hardback_release)
-  VALUES(4, 'Kill or be killed: Ultimate Edition', '2022-04-13', 1, 1);
+  VALUES(4, 'Kill or be killed: Ultimate Edition', '2022-04-13', 0, 1);
 INSERT INTO  DC_COMICS.graphic_novel(graphic_novel_id, novel_title, novel_release_date, paperback_release, hardback_release)
   VALUES(5, 'Live, die, repeat! Platinum collection', '2022-04-13', 1, 1);
 SET IDENTITY_INSERT DC_COMICS.graphic_novel OFF;
